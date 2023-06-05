@@ -1,0 +1,53 @@
+<template>
+	<lightning-spinner alternative-text="Loading" size="medium" if:true={loading}></lightning-spinner>
+
+	<lightning-card title="Search Distance, Travel Time and Cost between two locations">
+		<lightning-layout>
+			<!-- Origin Address -->
+			<lightning-layout-item size="12" medium-device-size="6" padding="around-small">
+				<c-input-address label="Origin Address" placeholder="Enter Origin Address" data-target="originAddress"
+					onaddressselection={handleAddressSelection}>
+				</c-input-address>
+			</lightning-layout-item>
+
+			<!-- Destination Address -->
+			<lightning-layout-item size="12" medium-device-size="6" padding="around-small">
+				<c-input-address label="Destination Address" placeholder="Enter Destination Address"
+					data-target="destinationAddress" onaddressselection={handleAddressSelection}>
+				</c-input-address>
+			</lightning-layout-item>
+		</lightning-layout>
+
+		<div slot="footer">
+			<lightning-button label="Get Directions" onclick={handleGetDirectionsClick}></lightning-button>
+		</div>
+	</lightning-card>
+
+    <div class="slds-m-top_medium" if:true={showResults}>
+        <lightning-card title="Result">
+            <lightning-layout multiple-rows class="slds-m-bottom_medium">
+                <lightning-layout-item size="12" class="slds-p-horizontal_small">
+                    <div class="slds-form-element slds-form-element_readonly slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Direction</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{distanceTimeCostDetails.distanceText}</div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" class="slds-p-horizontal_small">
+                    <div class="slds-form-element slds-form-element_readonly slds-form-element_horizontal">
+                        <span class="slds-form-element__label">Time</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{distanceTimeCostDetails.timeText}</div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-datatable key-field="label" columns={costTableColumns} data={distanceTimeCostDetails.costs}
+                hide-checkbox-column></lightning-datatable>
+        </lightning-card>
+    </div>
+    
+</template>
